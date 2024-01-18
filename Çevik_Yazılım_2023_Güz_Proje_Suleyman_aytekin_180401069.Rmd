@@ -9,3 +9,6 @@ output:
 # Q1 : Problem tanımı
 
 Şirketimiz adı Scout for Turkey 'dir . Problemimiz ise Beşiktaş jk Futbol kulübüne stoper mevkiğinde bir genç yetenek alınıcaktır.İlgili veri tabanımız üzerinden istenen oyuncuyu bulmamız gerekmektedir.
+
+# Q2 : Proje Amacı
+[Veri Seti](https://www.kaggle.com/datasets/vivovinco/20222023-football-player-stats) adlı Kaggle veri setini kullanarak, iş problemimizi veri setinden bilgi çekip istenen koşullara göre ayıklamayı ve çözmeyi amaçlıyoruz. Bu sayede problemi ortadan kaldırmayı planlıyoruz.
