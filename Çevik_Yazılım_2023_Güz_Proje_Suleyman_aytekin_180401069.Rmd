@@ -12,7 +12,6 @@ output:
 # Q2 : Proje Amacı
 [Veri Seti](https://www.kaggle.com/datasets/vivovinco/20222023-football-player-stats) adlı Kaggle veri setini kullanarak, iş problemimizi veri setinden bilgi çekip istenen koşullara göre ayıklamayı ve çözmeyi amaçlıyoruz. Bu sayede problemi ortadan kaldırmayı planlıyoruz.
 # Q3 : Veri seti keşifsel analizi
-
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 # Veri dosyasını internetten indir ve git repo'sunun içine commitle
 filename <- "2022-2023 Football Player Stats.csv"
@@ -93,7 +92,7 @@ Veri tipleri istenilen formda olduğu için herhangi bir değişiklik yapmamıza
 
 ## "PasTotCMP% "Pass completion percentage(Tamamlanan pas yüzdesi) sütunu veri tipi 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-str(myDF$PasTotCmp)
+str(myDF$PasTotCmp.)
 
 ```
 
@@ -141,4 +140,152 @@ str(myDF$ToSuc.)
 Veri tipleri istenilen formda olduğu için herhangi bir değişiklik yapmamıza gerek yok.
 
 Not: Beşiktaş JK Futbol Kulübü ile sonradan yaptığımız temaslar sonucunda, "Başarıyla Tamamlanan Dribbling Yüzdesi" yüksek yüzdeli futbolcuların onlar için artık çok önem taşımadığını ve gerektiğinde bu verinin kullanılmamasına karar verilmiştir.
+
+# Q5 : Veri mühendisliği 
+
+## Grafikler ve İstatislikler üzerinden yorumlama 
+
+## "MP " Matches played(Oynadığı maç sayısı)
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Yoğunluk grafiği çizimi
+
+ggplot(myDF, aes(x = MP, fill = MP)) +
+  geom_density(alpha = 0.7) +
+  labs(title = "Yoğunluk Grafiği - Matches played Sütunu", x = "Matches played", y = "Yoğunluk") +
+  theme_minimal()
+
+
+```
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+histogram <- ggplot(myDF, aes(x = MP), binwidth = 5) +
+  geom_histogram(aes(y = ..density..), fill = "skyblue", color = "black", alpha = 0.7) +
+  labs(title = "Matches played Sütunu Histogramı", x = "Matches played", y = "Yoğunluk") +
+  theme_minimal()
+
+standart_sapma_cizgisi <- histogram +
+  geom_vline(aes(xintercept = mean(MP), color = "Mean"), linetype = "dashed", size = 1) +
+  geom_vline(aes(xintercept = mean(MP) + sd(MP), color = "Upper SD"), linetype = "dashed", size = 1) +
+  geom_vline(aes(xintercept = mean(MP) - sd(MP), color = "Lower SD"), linetype = "dashed", size = 1) +
+  scale_color_manual(name = "Lines", values = c(Mean = "red", `Upper SD` = "blue", `Lower SD` = "green"))
+
+print(standart_sapma_cizgisi)
+
+
+
+
+```
+
+
+Burada görüldüğü üzere bir sezonda 0 ila 10 maç(özellikle 0 ila 5) arasında oynayan futbolcu sayısı oldukça yüksektir. Ancak, maça çıkmaya hazır futbolcu arayışımızda 0 ila 10 maç arası oynayan futbolcuları göz ardı edeceğiz.
+
+# "Pos " Position(Pozisyon) 
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+ggplot(myDF, aes(x = "", fill = Pos)) +
+  geom_bar(stat = "count", width = 1) +
+  coord_polar(theta = "y") +
+  labs(title = "Pozisyon Dağılımı", x = NULL, y = NULL) +
+  theme_minimal() +
+  theme(axis.text = element_blank(),
+        axis.title = element_blank())
+
+```
+
+
+Defans oyuncularının sayısı oldukça fazla olduğundan, diğer kriterleri kullanarak bu sayıyı azaltmayı amaçlıyoruz.
+
+
+# "Pos " Position(Pozisyon) ile "PasTotCMP% "Pass completion percentage(Tamamlanan pas yüzdesi) ilişkisi
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Kutu grafiği oluştur
+# Pos sütununu faktör tipine dönüştür
+myDF$Pos <- factor(myDF$Pos)
+
+# Boxplot'u çiz
+ggplot(myDF, aes(x = Pos, y = PasTotCmp.)) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
+```
+
+
+Görüldüğü üzere, defans oyuncularının pas oranı oldukça yüksek. Bu durum, futbolcu seçimini kolaylaştıracaktır.
+
+## "Min "Minutes played(Oynanan Dakika) ile "Age "Player’s age(Oyuncunun yaşı) ilişkisi
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+# Scatter plot oluşturun
+ggplot(myDF, aes(x = Min, y = Age)) +
+  geom_point() +
+  labs(title = "Minutes Played vs. Age", x = "Minutes Played", y = "Age") +
+  theme_minimal()
+
+```
+
+Grafikte görüldüğü üzere, yaş sayısı azaldıkça alınan süreler de azalıyor. Bu durum, arama yelpazemizi istediğimiz şekilde daraltıyor.
+## "PasTotAtt "Passes attempted(Pas deneme) ve "PasLonCMP% " Pass completion percentage (30 yard ve üzeri pas başarı oranı) ilişkisi
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+library(hexbin)
+
+hb <- hexbin(myDF$PasLonCmp., myDF$PasTotAtt, xbins = 30)
+plot(hb, main = "Hexbin Plot - PasLonCmp% vs. PasTotAtt", xlab = "PasLonCmp%", ylab = "PasTotAtt", colorcut = 10)
+
+```
+
+Pas deneme sayısı görüldüğü üzere, aradığımız oyuncu stili %60 ila %80 başarı oranına sahip, uzun pas yüzdesiyle oynayan ve yüksek pas denemesi gerçekleştiren oyunculardır. Bu grafikte ise arama yelpazemizi daralttığımızı görebiliriz.
+
+## "Starts" Matches started(İlk 11 başlama sayısı) grafiği
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+library(ggplot2)
+
+ggplot(myDF, aes(x = Starts)) +
+  geom_bar(fill = "skyblue", color = "black") +
+  labs(title = "Başlama Sayısına Göre Futbolcu Dağılımı", x = "Başlama Sayısı", y = "Oyuncu Sayısı") +
+  theme_minimal()
+```
+
+
+Grafikte 0 ila 5 maç arasında oldukça fazla futbolcu görülmektedir. Arama yelpazemizi daraltmak için bu futbolcuları çıkarmamız gerekiyor.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+medyan_starts <- median(myDF$Starts, na.rm = TRUE)
+cat("Starts Medyan Değeri:", medyan_starts, "\n")
+
+```
+Medyan değeri 7 olduğu ve aradığımız oyuncunun daha fazla maça başlama sayısına sahip olması gerektiği göz önüne alındığında, bu durum arama yelpazemizi daraltmaktadır.
+
+## "ToSuc% " Pertange of take-ons Completed Successfully (Başarıyla Tamamlanan Dribbling Yüzdesi) ile Pos(Position) ilişkisi
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(ggplot2)
+
+ggplot(myDF, aes(x = Pos, y = ToSuc.)) +
+  geom_point(color = "blue") +
+  labs(title = "Başarıyla Tamamlanan Dribbling Yüzdesi ve Pozisyon İlişkisi", x = "Pozisyon", y = "ToSuc%") +
+  theme_minimal()
+
+```
+
+Grafikte görüldüğü üzere genel olarak, defans oyuncuları %60 ila %25 arasında yer almaktadır.
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+library(ggplot2)
+ortalama_tosuc <- mean(myDF$ToSuc., na.rm = TRUE)
+cat("ToSuc% Ortalama Değeri:", ortalama_tosuc, "\n")
+
+```
+Ortalama olarak ise yaklaşık 34 civarındadır, bu nedenle kulübün isteği üzerine bu kriter üzerine yoğunlaşmayacağız.
+
+
 
