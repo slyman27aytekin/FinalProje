@@ -228,7 +228,7 @@ ggplot(myDF, aes(x = Min, y = Age)) +
 
 ```
 
-Grafikte görüldüğü üzere, yaş sayısı azaldıkça alınan süreler de azalıyor. Bu durum, arama yelpazemizi istediğimiz şekilde daraltıyor.
+Grafikte görüldüğü üzere, yaş sayısı azaldıkça alınan süreler de azalıyor. Bu durumda 500 dakika ve üzeri süre alan futbolcuların aranması gerekiyor, bu da arama yelpazemizi istediğimiz şekilde daraltıyor.
 ## "PasTotAtt "Passes attempted(Pas deneme) ve "PasLonCMP% " Pass completion percentage (30 yard ve üzeri pas başarı oranı) ilişkisi
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -289,3 +289,77 @@ Ortalama olarak ise yaklaşık 34 civarındadır, bu nedenle kulübün isteği �
 
 
 
+# Q6 : Veri analizi  
+
+Yaptığımız grafik istatistikleri ve diğer özelliklere dayanarak, aradığımız defans oyuncusunun en az 10 maçta ilk 11 başlamış olması, pas denemesi 50 ve üzeri, uzun pas başarı oranının %50 ve üzeri olması, 22 yaş ve altındaki oyuncuların aranmasına kulüple yapılan istişareler sonucunda karar kılınmıştır.
+
+## Kriterlere uyan oyuncuların tablosu
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+
+# Filtreli veriyi oluştur
+filtreli_veri <- myDF %>%
+  filter(Pos == "DF", Starts >= 10, PasTotAtt >= 50, PasLonCmp. >= 50, PasTotCmp. >= 75, Age <= 22, Min >= 500)
+
+# Tabloyu oluştur
+print(filtreli_veri)
+```
+## Genel istatislik verileri
+Tabloda görüldüğü üzere 28 oyuncu sıralanmıştır.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Oyuncu sayısını ve toplam satır sayısını bul
+oyuncu_sayisi <- nrow(filtreli_veri)
+toplam_satir_sayisi <- nrow(myDF)
+
+# Oranı hesapla
+oran <- (oyuncu_sayisi / toplam_satir_sayisi) * 100
+
+# Sonucu yazdır
+cat("Oyuncu Sayısı:", oyuncu_sayisi, "\n")
+cat("Toplam Satır Sayısı:", toplam_satir_sayisi, "\n")
+cat("Oyuncu Oranı: %", oran, "\n")
+```
+
+Sonuç olarak, sadece 28 futbolcu bulunmaktadır ve bu sonuç, istatistiksel olarak veri setimizdeki bütün oyuncuların yaklaşık %1'ine denk gelmektedir.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Filtrelenmiş veri setindeki ortalama yaş ve süreleri hesapla
+
+ortalamalar <- filtreli_veri %>%
+  summarise(
+    Ortalama_Starts = mean(Starts),
+    Ortalama_PasTotAtt = mean(PasTotAtt),
+    Ortalama_PasLonCmp = mean(PasLonCmp.),
+    Ortalama_PasTotCmp = mean(PasTotCmp.),
+    Ortalama_yas = mean(Age),
+    Ortalama_sure = mean(Min)
+  )
+
+# Sonuçları ekrana yazdır
+print(ortalamalar)
+
+
+```
+
+Bu istatistikler, belirlenen kriterlere uyan 28 futbolcunun genel profilini ortaya koymaktadır.
+
+
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE,results='hide'}
+# Not yukarıdaki results='hide' olduğundan çıktı gozukmıcektır.Render çalışıyorsa tesleri geçmiştir.
+# Testlerin ayrıntılı gectıklerini gormek için results = 'hide' silin 
+
+
+# 180401069_Çevik_yazılım_test_kodları_Suleyman_aytekin.R dosyasını çağır
+source("180401069_Çevik_yazılım_test_kodları_Suleyman_aytekin.R")
+
+# Tüm testleri çalıştıran kod
+test_result <- test_file("180401069_Çevik_yazılım_test_kodları_Suleyman_aytekin.R")
+summary(test_result)
+print(test_result)
+```
