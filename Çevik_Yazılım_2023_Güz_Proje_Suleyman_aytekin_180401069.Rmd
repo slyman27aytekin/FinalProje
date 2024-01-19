@@ -99,6 +99,23 @@ str(myDF$PasTotCmp)
 
 Veri tipleri istenilen formda olduğu için herhangi bir değişiklik yapmamıza gerek yok.
 
+## "PasLonCMP% " Pass completion percentage (Passes longer than 30yards) (30 yard ve üzeri pas başarı oranı) sütunu veri tipi 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+str(myDF$PasLonCmp.)
+
+```
+
+Veri tipleri istenilen formda olduğu için herhangi bir değişiklik yapmamıza gerek yok.
+
+## "PasTotAtt "Passes attempted(Pas deneme) sütunu veri tipi 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+str(myDF$PasTotAtt)
+
+```
+
+Veri tipleri istenilen formda olduğu için herhangi bir değişiklik yapmamıza gerek yok.
+
+
 ## "Age "Player’s age(Oyuncunun yaşı) sütunu veri tipi 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 str(myDF$Age)
