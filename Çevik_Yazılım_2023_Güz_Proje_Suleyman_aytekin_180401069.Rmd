@@ -351,8 +351,9 @@ Bu istatistikler, belirlenen kriterlere uyan 28 futbolcunun genel profilini orta
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE,results='hide'}
-# Not yukarıdaki results='hide' olduğundan çıktı gozukmıcektır.Render çalışıyorsa tesleri geçmiştir.
-# Testlerin ayrıntılı gectıklerini gormek için results = 'hide' silin 
+# Yukarıdaki "results='hide'" ifadesi kullanıldığından dolayı çıktı görüntülenmeyecektir. Eğer render işlemi başarılı olduysa testleri geçmiş demektir.
+# Testlerin detaylı geçtiğini görmek için "results='hide'" ifadesini kaldırın.
+
 
 
 # 180401069_Çevik_yazılım_test_kodları_Suleyman_aytekin.R dosyasını çağır
@@ -363,3 +364,9 @@ test_result <- test_file("180401069_Çevik_yazılım_test_kodları_Suleyman_ayte
 summary(test_result)
 print(test_result)
 ```
+
+# Q7 : Sonuç değerlendirme, tavsiyeler
+
+Projede genel olarak, veri setinden veriler analiz edilmiş, gerekli veriler çekilip, görselleştirilmiş, istatistikleri alınarak yazılmış bir rapor oluşturulmuştur. Sonuç olarak, Beşiktaş JK futbol kulübünün kriterlerine uygun 28 adet defans oyuncusu bulunmuş ve başarıyla sonuçlanmıştır. Oluşan problem büyük ölçüde çözülmüş olup, hem firmamız hem de kulüp sonuçlardan memnun olarak ayrılmıştır. Sonuçlar Beşiktaş JK futbol kulübüne teslim edilmiştir.
+
+Kulüp, elde edilen futbolcuları fiziksel olarak gözlemleyerek aralarından en uygun olanı seçmesi için kulübe bırakılmıştır. Analizimiz gayet yerinde olup, 2700 yakın futbolcu arasından aranan kritere uygun 28 futbolcuya ulaşılmıştır. Eksik yönümüz ise futbolcunun güncel piyasa değeridir. İleride bu projeyi geliştirmek için yapılması gerekenler şunlardır: futbolcu skalasını büyütmek, ilk beş lig dışından futbolcuların verisine ulaşmak, futbolcu piyasasını eklemek ve bunlar üzerinden işlem yapmaktır.
