@@ -11,3 +11,53 @@ output:
 
 # Q2 : Proje Amacı
 [Veri Seti](https://www.kaggle.com/datasets/vivovinco/20222023-football-player-stats) adlı Kaggle veri setini kullanarak, iş problemimizi veri setinden bilgi çekip istenen koşullara göre ayıklamayı ve çözmeyi amaçlıyoruz. Bu sayede problemi ortadan kaldırmayı planlıyoruz.
+# Q3 : Veri seti keşifsel analizi
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Veri dosyasını internetten indir ve git repo'sunun içine commitle
+filename <- "2022-2023 Football Player Stats.csv"
+
+# Dosyayi ithal et
+library(readr)
+myDF <- read.csv(filename, sep = ";")
+head(myDF)
+```
+
+Veri seti Kaggle web sitesinden indirilmiştir ve **readr::read_csv()** fonksiyonu kullanılarak **`r class(myDF)[[1]]`** tipinde bir değişkene ithal edilmiştir. Veri boyutları aşağıdaki gibidir :
+# Veri çerçevesinin sınıfını kontrol et
+veri_tipi <- class(myDF)[[1]]
+
+# Veri boyutlarını al
+satir_sayisi <- nrow(myDF)
+sutun_sayisi <- ncol(myDF)
+
+# Sonuçları ekrana yazdır
+cat("Veri Tipi:", veri_tipi, "\n")
+cat("Satır Sayısı:", satir_sayisi, "\n")
+cat("Sütun Sayısı:", sutun_sayisi, "\n")
+
+Veri setinin ön görsellemesi aşağıda verilmiştir.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+myDF
+```
+Veri setini incelediğimizde, problem çözümü için kullanacağımız sütunları incelediğimizde, hepsinin doğru veri tipinde geldiğini şu an bir tip değişikliğine gerek olmadığını gözlemliyoruz.
+
+Diğer sütunlardaki değişkenlere ihtiyaç duymayacağımızdan onları  dikkate almayacağız.
+
+Futbolcuların yaş verilerinin dağılımı aşağıdaki histogramda gösterilmiştir.
+
+```{r}
+#Burada daha net gozukmesi için ek işlemler yapılmıştır işlemler aşağıdaki gibidir.
+library(ggplot2)
+
+ggplot(myDF, aes(x = Age)) +
+  geom_histogram(binwidth = 2, fill = "skyblue", color = "black") +
+  scale_x_continuous(breaks = seq(15, max(myDF$Age), by = 3)) +
+  labs(x = "Age", y = "Frequency") +
+  theme_minimal()
+```
+
+
+
+Görüldüğü üzere, verilerin büyük çoğunluğu 22-25 yaş aralığından gelmektedir. Bu durum, 20 yaş altı futbolcu bulurken daha fazla zorlanabileceğimizi işaret etmektedir.
