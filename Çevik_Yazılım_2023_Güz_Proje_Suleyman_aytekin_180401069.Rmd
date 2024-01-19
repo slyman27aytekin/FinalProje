@@ -49,6 +49,8 @@ Futbolcuların yaş verilerinin dağılımı aşağıdaki histogramda gösterilm
 
 ```{r}
 #Burada daha net gozukmesi için ek işlemler yapılmıştır işlemler aşağıdaki gibidir.
+# Veri setinizdeki yaş verilerinin histogramını oluşturmak için aşağıdaki gibi basit bir gösterim mevcuttur:  hist(myDF$Age, breaks = 20)
+
 library(ggplot2)
 
 ggplot(myDF, aes(x = Age)) +
@@ -61,3 +63,65 @@ ggplot(myDF, aes(x = Age)) +
 
 
 Görüldüğü üzere, verilerin büyük çoğunluğu 22-25 yaş aralığından gelmektedir. Bu durum, 20 yaş altı futbolcu bulurken daha fazla zorlanabileceğimizi işaret etmektedir.
+
+
+# Q4 : Veri seti ön işlemesi
+
+#Bu bölümde tablodaki sütunların veri tiplerini kontrol ediyoruz ve ihtiyaç duyulması halinde veri tiplerini değiştiriyoruz.
+
+## "Pos " Position(Pozisyon) sütunu veri tipi 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+str(myDF$Pos)
+
+```
+Veri tipleri istenilen formda olduğu için herhangi bir değişiklik yapmamıza gerek yok.
+
+## "Starts" Matches started(İlk 11 başlama sayısı) sütunu veri tipi 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+str(myDF$Starts)
+
+```
+Veri tipleri istenilen formda olduğu için herhangi bir değişiklik yapmamıza gerek yok.
+
+## "Min "Minutes played(Oynanan Dakika) sütunu veri tipi 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+str(myDF$Min)
+
+```
+
+Veri tipleri istenilen formda olduğu için herhangi bir değişiklik yapmamıza gerek yok.
+
+## "PasTotCMP% "Pass completion percentage(Tamamlanan pas yüzdesi) sütunu veri tipi 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+str(myDF$PasTotCmp)
+
+```
+
+Veri tipleri istenilen formda olduğu için herhangi bir değişiklik yapmamıza gerek yok.
+
+## "Age "Player’s age(Oyuncunun yaşı) sütunu veri tipi 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+str(myDF$Age)
+
+```
+
+Veri tipleri istenilen formda olduğu için herhangi bir değişiklik yapmamıza gerek yok.
+
+## "MP " Matches played(Oynadığı maç sayısı) sütunu veri tipi 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+str(myDF$MP)
+
+```
+
+Veri tipleri istenilen formda olduğu için herhangi bir değişiklik yapmamıza gerek yok.
+
+## "ToSuc% " Pertange of take-ons Completed Successfully (Başarıyla Tamamlanan Dribbling Yüzdesi) sütunu veri tipi 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+str(myDF$ToSuc.)
+
+```
+
+Veri tipleri istenilen formda olduğu için herhangi bir değişiklik yapmamıza gerek yok.
+
+Not: Beşiktaş JK Futbol Kulübü ile sonradan yaptığımız temaslar sonucunda, "Başarıyla Tamamlanan Dribbling Yüzdesi" yüksek yüzdeli futbolcuların onlar için artık çok önem taşımadığını ve gerektiğinde bu verinin kullanılmamasına karar verilmiştir.
+
